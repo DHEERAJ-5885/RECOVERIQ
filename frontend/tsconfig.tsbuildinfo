@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/layouts/dashboardlayout.tsx","./src/lib/utils.ts","./src/pages/analytics.tsx","./src/pages/audit.tsx","./src/pages/escalations.tsx","./src/pages/overview.tsx","./src/pages/policies.tsx","./src/pages/queue.tsx","./src/pages/risk.tsx"],"errors":true,"version":"6.0.3"}
