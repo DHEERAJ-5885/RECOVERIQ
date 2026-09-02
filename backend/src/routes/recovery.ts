@@ -36,7 +36,7 @@ router.post('/:caseId/manual-action', async (req, res) => {
     if (!cases.length) return res.status(404).json({ error: 'Case not found' });
     const recoveryCase = cases[0];
     
-    if (recoveryCase.status !== 'ESCALATED') {
+    if (!['ESCALATED', 'RECOMMENDED', 'AWAITING_PAYMENT', 'EXECUTING'].includes(recoveryCase.status || '')) {
       return res.status(400).json({ error: 'Case is not in ESCALATED state' });
     }
 

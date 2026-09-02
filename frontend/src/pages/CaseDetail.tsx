@@ -26,7 +26,7 @@ export function CaseDetail() {
     };
   }, [data?.case?.status, refetch]);
 
-  if (loading) {
+  if (loading && !data) {
     return (
       <div className="space-y-6 max-w-6xl mx-auto pb-12 animate-pulse">
         <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-1/4 mb-4"></div>
@@ -176,7 +176,28 @@ export function CaseDetail() {
         </div>
       )}
       
-      {recoveryCase.status === 'AWAITING_PAYMENT' && (
+      {recoveryCase.status === 'EXECUTING' && (
+              <div className="rounded-xl border border-indigo-200 bg-white dark:bg-slate-950 dark:border-indigo-900/30 shadow-sm relative overflow-hidden mb-6">
+                 <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
+                 <div className="p-6 border-b border-slate-100 dark:border-slate-800 bg-indigo-50/30 dark:bg-indigo-950/10">
+                   <h3 className="font-bold text-lg flex items-center text-indigo-900 dark:text-indigo-400">
+                     <Activity className="w-5 h-5 mr-2" />
+                     Action in Progress
+                   </h3>
+                 </div>
+                <div className="p-6 space-y-4">
+                  <button
+                    onClick={() => handleManualAction('STOP_RECOVERY')}
+                    disabled={executing}
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 h-12 rounded-xl font-semibold transition-all flex items-center justify-center"
+                  >
+                    {executing ? 'Executing...' : 'Stop Recovery'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {recoveryCase.status === 'AWAITING_PAYMENT' && (
         <div className="bg-amber-50 border-l-4 border-l-amber-500 border-t border-r border-b border-t-amber-100 border-r-amber-100 border-b-amber-100 text-amber-800 rounded-r-lg p-5 flex items-start shadow-sm">
           <Clock className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 text-amber-600" />
           <div>
@@ -316,6 +337,45 @@ export function CaseDetail() {
         <div className="space-y-6">
           
           {/* Action Execution Cards Conditional on Status */}
+            {recoveryCase.status === 'RECOMMENDED' && (
+              <div className="rounded-xl border border-blue-200 bg-white dark:bg-slate-950 dark:border-blue-900/30 shadow-sm relative overflow-hidden mb-6">
+                 <div className="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                 <div className="p-6 border-b border-slate-100 dark:border-slate-800 bg-blue-50/30 dark:bg-blue-950/10">
+                   <h3 className="font-bold text-lg flex items-center text-blue-900 dark:text-blue-400">
+                     <Cpu className="w-5 h-5 mr-2" />
+                     AI Recommendation
+                   </h3>
+                 </div>
+                <div className="p-6 space-y-4">
+                  <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+                    <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Recommended Action</div>
+                    <div className="text-lg font-bold text-slate-900 dark:text-white">
+                      {latestPrediction?.recommendedAction?.replace(/_/g, ' ') || 'Unknown'}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 pt-2">
+                    <button
+                      onClick={() => handleManualAction(latestPrediction?.recommendedAction || '')}
+                      disabled={executing}
+                      className="w-full bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 h-12 rounded-xl font-bold transition-all flex items-center justify-center shadow-md"
+                    >
+                      {executing ? (
+                        <span className="flex items-center"><RefreshCw className="w-4 h-4 mr-2 animate-spin" /> Executing...</span>
+                      ) : (
+                        <span className="flex items-center">Approve Recommendation</span>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setRejectModalOpen(true)}
+                      disabled={executing}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 h-12 rounded-xl font-semibold transition-all flex items-center justify-center"
+                    >
+                      Reject Recommendation
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           {recoveryCase.status === 'ESCALATED' && (
             <div className="rounded-xl border border-amber-200 bg-white dark:bg-slate-950 dark:border-amber-900/30 shadow-sm relative overflow-hidden mb-6">
                <div className="absolute top-0 left-0 w-full h-1 bg-amber-500"></div>

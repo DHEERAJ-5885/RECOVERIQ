@@ -102,7 +102,7 @@ async function processPaymentLinkPaid(caseId: string, eventType: string, eventPa
   console.log(`[WEBHOOK] WEBHOOK EVENT STORED`);
 
   // 5. Audit Logging
-  await AuditService.log('webhook', caseId, 'WEBHOOK_RECEIVED', { eventType, paymentId: paymentLinkId });
+  await AuditService.log('event', caseId, 'WEBHOOK_RECEIVED', { eventType, paymentId: paymentLinkId });
   await AuditService.log('case', caseId, 'CASE_STATUS_UPDATED', { newStatus: 'RECOVERED' });
   console.log(`[WEBHOOK] AUDIT LOG CREATED`);
 }

@@ -24,3 +24,5 @@ cloudflared.exe
 # Editor
 .vscode/
 .DS_Store
+
+scratch_casedetail_backup.txt
