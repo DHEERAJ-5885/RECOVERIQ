@@ -4,9 +4,10 @@ import { db } from './db';
 import { sql } from 'drizzle-orm';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(cors());
@@ -40,7 +41,7 @@ app.use('/api/webhooks', express.json({
 
 import policiesRoutes from './routes/policies';
 import escalationsRoutes from './routes/escalations';
-import devRoutes from './routes/dev';
+
 
 app.use('/api/auth', (req, res) => res.json({ message: 'Auth stub' }));
 app.use('/api/revenue-events', (req, res) => res.json({ message: 'Events stub' }));
@@ -51,10 +52,11 @@ app.use('/api/recovery', recoveryRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/cases', casesRoutes);
 app.use('/api/audit', auditRoutes);
-// Development testing endpoint
+import devRoutes from './routes/dev';
 app.use('/api/dev', devRoutes);
 
-app.listen(port, () => {
-
-  console.log(`Server listening at http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+  });
+}

@@ -128,7 +128,7 @@ router.post('/dev/simulate/payment-link-paid/:caseId', async (req: Request, res:
       }
     };
     
-    await processPaymentLinkPaid(caseId, 'payment_link.paid', mockPayload, 'plink_dev_mock');
+    await processPaymentLinkPaid(caseId as string, 'payment_link.paid', mockPayload, 'plink_dev_mock');
     console.log('[SIMULATE] RESPONSE: 200');
     res.json({ status: 'ok', simulated: true });
   } catch (error: any) {

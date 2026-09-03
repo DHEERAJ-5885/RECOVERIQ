@@ -49,7 +49,7 @@ router.post('/escalate-test', async (req, res) => {
         totalTransactions: 0,
         failedTransactions: 0,
         successfulTransactions: 0,
-        averageTransactionValue: 0,
+        averageTransactionValue: '0',
         previousRecoveryAttempts: 0,
         previousSuccessfulRecoveries: 0,
         customerSegment: 'TEST',
@@ -58,16 +58,15 @@ router.post('/escalate-test', async (req, res) => {
 
     const eventId = uuidv4();
     await db.insert(revenueEvents).values({
-      id: eventId,
       merchantId,
       customerId,
-      amount,
+      amount: amount.toString(),
       currency,
       failureReason: failureReason || null,
       subscriptionStatus: subscriptionStatus || null,
       checkoutStage: checkoutStage || null,
       eventType: eventType || 'payment_failure',
-      occurredAt: new Date(),
+      occurredAt: new Date()
     });
 
     const result = await RecoveryWorkflowService.analyzeEvent(eventId);
