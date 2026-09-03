@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useApi } from '../lib/useApi';
-import { ArrowLeft, ArrowRight, CheckCircle2, ShieldAlert, Cpu, Activity, Clock, FileText, User, ArrowUpRight, CheckCircle, ExternalLink, RefreshCw, XCircle, AlertTriangle, StopCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ShieldAlert, Cpu, Activity, Clock, FileText, User, CheckCircle, ExternalLink, RefreshCw, XCircle } from 'lucide-react';
 
 export function CaseDetail() {
   const { id } = useParams<{ id: string }>();
@@ -15,7 +15,7 @@ export function CaseDetail() {
 
   // Poll for updates if case is AWAITING_PAYMENT
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (data?.case?.status === 'AWAITING_PAYMENT') {
       interval = setInterval(() => {
         refetch();
@@ -49,7 +49,7 @@ export function CaseDetail() {
 
   const { case: recoveryCase, customer, predictions, actions, auditLogs } = data;
   const latestPrediction = predictions?.[0];
-  const pendingAction = actions?.find((a: any) => a.status === 'PENDING');
+
   const completedActions = actions?.filter((a: any) => a.status !== 'PENDING') || [];
 
   const handleManualAction = async (actionType: string, reason?: string) => {
@@ -97,7 +97,7 @@ export function CaseDetail() {
   };
 
   const isRecovered = recoveryCase.status === 'RECOVERED';
-  const canExecute = pendingAction && !isRecovered && recoveryCase.status !== 'STOPPED' && recoveryCase.status !== 'AWAITING_PAYMENT';
+
   
   // Status styling logic
   const getStatusConfig = (status: string) => {

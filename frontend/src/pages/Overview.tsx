@@ -1,6 +1,6 @@
 import { useApi } from '../lib/useApi';
 import { Link } from 'react-router-dom';
-import { ArrowRight, AlertTriangle, CheckCircle, Clock, Zap, ShieldAlert, ArrowUpRight, TrendingUp } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Zap, ShieldAlert, ArrowUpRight, TrendingUp } from 'lucide-react';
 
 export function Overview() {
   const { data, loading, error } = useApi<any>('/api/analytics/dashboard');

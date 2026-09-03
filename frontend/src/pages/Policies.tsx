@@ -1,4 +1,4 @@
-import { ShieldAlert, ShieldCheck, Plus, Filter, ToggleRight, AlertTriangle, Lock, Zap, Ban, Loader2 } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, Plus, Filter, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 type PolicyTab = 'All Policies' | 'Active' | 'Guardrails' | 'Limits';

@@ -1,6 +1,6 @@
 import { useApi } from '../lib/useApi';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, ArrowRight, User, IndianRupee, Clock, ShieldAlert, CheckCircle } from 'lucide-react';
+import { AlertTriangle, ArrowRight, User, IndianRupee, Clock, CheckCircle } from 'lucide-react';
 
 export function Escalations() {
   const { data: escalationsData, loading, error } = useApi<any[]>('/api/escalations');

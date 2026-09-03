@@ -27,7 +27,7 @@ export function Analytics() {
 
   // Find max values for progress bars
   const maxFailureAmount = Math.max(...(failureReasons?.map(r => r.amount) || [0]));
-  const maxActionCount = Math.max(...(actions?.map(a => parseInt(a.count)) || [0]));
+
   const maxRecoveryAmount = Math.max(...(recoveryOverTime?.map(r => r.recoveredAmount) || [0]));
 
   return (
