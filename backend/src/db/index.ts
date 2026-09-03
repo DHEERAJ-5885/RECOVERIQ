@@ -13,8 +13,16 @@ if (!connectionString) {
   }
 }
 
+const sanitizedConnectionString = (() => {
+  if (!connectionString) return undefined;
+  const parsed = new URL(connectionString);
+  parsed.searchParams.delete('sslmode');
+  parsed.searchParams.delete('uselibpqcompat');
+  return parsed.toString();
+})();
+
 const pool = new Pool({
-  connectionString: connectionString || 'postgresql://postgres:postgres@localhost:5432/recoveriq',
+  connectionString: sanitizedConnectionString || 'postgresql://postgres:postgres@localhost:5432/recoveriq',
   ssl: connectionString ? { rejectUnauthorized: false } : undefined,
 });
 
