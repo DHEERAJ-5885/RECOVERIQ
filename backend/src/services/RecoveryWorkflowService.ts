@@ -6,7 +6,7 @@ import { MLServiceClient, MLPredictionRequest } from './MLServiceClient';
 import { RecoveryDecisionService } from './RecoveryDecisionService';
 import { RecoveryPolicyService } from './RecoveryPolicyService';
 import { AuditService } from './AuditService';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export class RecoveryWorkflowService {
   
@@ -103,7 +103,7 @@ export class RecoveryWorkflowService {
     }
 
     // 6. DB Inserts
-    let caseId = uuidv4();
+    let caseId: string = randomUUID();
     
     // Check if case already exists
     const existingCase = await db.select().from(recoveryCases).where(eq(recoveryCases.eventId, event.id)).limit(1);
@@ -137,7 +137,7 @@ export class RecoveryWorkflowService {
     }
 
     // Create Prediction
-    const predId = uuidv4();
+    const predId = randomUUID();
     await db.insert(recoveryPredictions).values({
       id: predId,
       caseId: caseId,
@@ -150,7 +150,7 @@ export class RecoveryWorkflowService {
     await AuditService.log('prediction', predId, 'ML_PREDICTION_CREATED');
 
     // Create Action
-    const actionId = uuidv4();
+    const actionId = randomUUID();
     await db.insert(recoveryActions).values({
       id: actionId,
       caseId: caseId,
@@ -163,7 +163,7 @@ export class RecoveryWorkflowService {
 
     // Escalate if needed
     if (finalStatus === 'ESCALATED') {
-      const escId = uuidv4();
+      const escId = randomUUID();
       await db.insert(escalations).values({
         id: escId,
         caseId: caseId,

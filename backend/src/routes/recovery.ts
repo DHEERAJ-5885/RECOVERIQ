@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { RecoveryWorkflowService } from '../services/RecoveryWorkflowService';
 import { RecoveryActionExecutor } from '../services/RecoveryActionExecutor';
+import { randomUUID } from 'crypto';
 
 const router = Router();
 
@@ -24,7 +25,6 @@ import { revenueEvents, customers, recoveryCases, recoveryActions, escalations }
 import { eq, desc } from 'drizzle-orm';
 import { AuditService } from '../services/AuditService';
 import { RecoveryPolicyService } from '../services/RecoveryPolicyService';
-import { v4 as uuidv4 } from 'uuid';
 
 router.post('/:caseId/manual-action', async (req, res) => {
   try {
@@ -84,7 +84,7 @@ router.post('/:caseId/manual-action', async (req, res) => {
       .set({ status: 'FAILED', resultMetadata: { error: 'Overridden by human action' } })
       .where(eq(recoveryActions.caseId, caseId));
       
-    const actionId = uuidv4();
+    const actionId = randomUUID();
     await db.insert(recoveryActions).values({
       id: actionId,
       caseId: caseId,

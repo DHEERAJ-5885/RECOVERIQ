@@ -1,6 +1,6 @@
 import { db } from '../db';
 import { auditLogs } from '../db/schema';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export class AuditService {
   static async log(
@@ -13,7 +13,7 @@ export class AuditService {
   ) {
     try {
       await db.insert(auditLogs).values({
-        id: uuidv4(),
+        id: randomUUID(),
         entityType,
         entityId,
         action,

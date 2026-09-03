@@ -18,7 +18,7 @@ export function Policies() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/policies')
+    fetch('/api/policies')
       .then(res => res.json())
       .then(data => {
         const mapped = data.map((p: any) => ({

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { db } from '../db';
 import { revenueEvents, customers } from '../db/schema';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { RecoveryWorkflowService } from '../services/RecoveryWorkflowService';
 
 const router = Router();
@@ -56,7 +56,7 @@ router.post('/escalate-test', async (req, res) => {
       })
       .onConflictDoNothing();
 
-    const eventId = uuidv4();
+    const eventId = randomUUID();
     await db.insert(revenueEvents).values({
       merchantId,
       customerId,

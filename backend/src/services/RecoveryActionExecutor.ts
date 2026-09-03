@@ -3,7 +3,7 @@ import { recoveryCases, recoveryActions } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { AuditService } from './AuditService';
 import { RazorpayService } from './RazorpayService';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export class RecoveryActionExecutor {
   
